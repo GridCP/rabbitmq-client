@@ -7,3 +7,29 @@ services:
       - "80:80"
     volumes:
       - .:/var/www:cached
+    networks:
+      - gridcp_default
+
+  rabbitmq:
+    image: rabbitmq:3.12.9-management-alpine
+    container_name: 'rabbitmq'
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+    networks:
+      - gridcp_default
+
+
+networks:
+  gridcp_default:
+    external: true
+
+volumes:
+  rabbitmq-data:
+    driver: local
+  rabbitmq-log:
+    driver: local
